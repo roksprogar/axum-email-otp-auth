@@ -1,6 +1,10 @@
 name: Rust CI
 
 on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
   workflow_dispatch:
 
 env:
@@ -15,7 +19,6 @@ jobs:
         image: redis:6
         ports:
           - 6379:6379
-
 
     steps:
     - uses: actions/checkout@v4
