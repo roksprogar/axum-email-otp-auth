@@ -92,7 +92,7 @@ To simplify local development and testing, you can enable the "Magic OTP" flow. 
 
 Initialize the service in your `main.rs`:
 
-```rust
+```rust,ignore
 use axum_email_otp_auth::{AuthConfig, AuthService, RedisStorage, LettreEmailSender};
 use std::sync::Arc;
 
@@ -114,14 +114,24 @@ async fn main() {
 
 Expose the API endpoints directly in your Axum router:
 
-```rust
+```rust,ignore
 use axum_email_otp_auth::axum_api::auth_router;
 use axum_email_otp_auth::tower_cookies::CookieManagerLayer;
 use axum::Router;
+use axum_email_otp_auth::{AuthConfig, AuthService, InMemoryStorage, LettreEmailSender};
+use std::sync::Arc;
 
-let app = Router::new()
-    .nest("/auth", auth_router(auth_service.clone()))
-    .layer(CookieManagerLayer::new());
+#[tokio::main]
+async fn main() {
+    let config = AuthConfig::from_env().expect("Failed to load config");
+    let storage = Arc::new(InMemoryStorage::new());
+    let email_sender = Arc::new(LettreEmailSender::new(&config));
+    let auth_service = Arc::new(AuthService::new(config, storage, email_sender));
+
+    let app = Router::new()
+        .nest("/auth", auth_router(auth_service.clone()))
+        .layer(CookieManagerLayer::new());
+}
 ```
 
 ### 3. API Endpoints
