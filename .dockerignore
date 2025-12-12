@@ -1,0 +1,6 @@
+# Ignore Rust build artifacts
+target/
+**/*.rs.bk
+
+# Ignore git
+.git/
