@@ -7,7 +7,7 @@ license = "MIT"
 repository = "https://github.com/roksprogar/axum-email-otp-auth"
 documentation = "https://docs.rs/axum-email-otp-auth"
 readme = "README.md"
-keywords = ["authentication", "otp", "email", "redis", "security", "rust"]
+keywords = ["authentication", "otp", "email", "redis", "rust"]
 categories = ["authentication", "web-programming"]
 include = ["src/**/*", "LICENSE", "README.md", "tests/**/*"]
 
